@@ -3,4 +3,4 @@ BERT-based neural network trained on multiple different (but related) data sourc
 
 This model effectively learns sentiment (1/0 for 4/5 and 1/2 star reviews, respectively) for different types of reviews, including 1000 each Amazon, Yelp, and IMDB, from UCI Machine Learning Repository (https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences). 
 
-This model can easily be extended to N many data sources to train on. 
+This model can easily be extended to N many data sources to train on. I've included estimates for 
