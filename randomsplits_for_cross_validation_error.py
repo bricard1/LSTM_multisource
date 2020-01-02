@@ -448,10 +448,3 @@ for i in range(0,100):
     temp=[]
     temp.extend([test_acc,test_acc1,test_acc2])
     all3.append(temp)
-    print(yelp_amazon)
-    print(yelp_imdb)
-    print(amazon_imdb)
-    print(yelp)
-    print(amazon)
-    print(imdb)
-    print(all3)
