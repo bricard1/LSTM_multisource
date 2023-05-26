@@ -49,6 +49,7 @@ class RNN(nn.Module):
         
     def forward(self, x):
         embedded = self.dropout(self.embedding(x))
+	
         output, (hidden, cell) = self.rnn(embedded)
         hidden = self.dropout(torch.cat((hidden[-2,:,:], hidden[-1,:,:]), dim=1))
         return self.fc(hidden.squeeze(0))
@@ -164,9 +165,6 @@ for i in range(0,100):
         train_loss, train_acc = train(model, train_iterator, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
         valid_loss1, valid_acc1 = evaluate(model, valid_iterator1, criterion)
-       if (valid_acc+valid_acc1)/2 >= bestmodelvalue:
-            bestmodelvalue=(valid_acc+valid_acc1)/2
-            torch.save(model.state_dict(), "sent_model_amazon_yelp.pt")   
         train_loss1, train_acc1 = train(model, train_iterator1, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
         valid_loss1, valid_acc1 = evaluate(model, valid_iterator1, criterion)
