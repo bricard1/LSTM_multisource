@@ -59,10 +59,10 @@ class RNN(nn.Module):
 
 
 # In[3]:
-
+#Everything below is repeated 100 times using different train/test splits.  
 for i in range(0,100):
+	
 	#YelpData = 0
-
     pos = data.TabularDataset(path='yelp_labelled.txt', format='csv',csv_reader_params={'delimiter':"\t"},fields=[('text', TEXT),('label', LABEL)])
 
 	#Of 1000 posts, 90/10 training/test
@@ -79,6 +79,7 @@ for i in range(0,100):
     train_data1, valid_data1 = trainandval1.split(split_ratio=0.80)
     train_iterator1, valid_iterator1, test_iterator1 = data.BucketIterator.splits((train_data1, valid_data1, test_data1), batch_size=BATCH_SIZE,sort_key=lambda x: len(x.text),device=device)
 
+	#imdbdata=3
     pos2 = data.TabularDataset(path='imdb_labelled.txt', format='csv',csv_reader_params={'delimiter':"\t"},fields=[('text', TEXT),
 	('label', LABEL)])
     trainandval2, test_data2=pos2.split(split_ratio=0.90)
@@ -112,7 +113,7 @@ for i in range(0,100):
 
 	# In[9]:
 
-
+#Define training/evaluation
     def binary_accuracy(preds, y):#round predictions to the closest integer
         rounded_preds = torch.round(torch.sigmoid(preds))
         correct = (rounded_preds == y).float() #convert into float for division 
@@ -165,7 +166,7 @@ for i in range(0,100):
 
     N_EPOCHS = 35
     bestmodelvalue=0
-
+#start running combination models- here first train on Yelp/Amazon. Train and step using yelp data, evaluate on both amazon and yelp data, then repeat using amazon data. Save model and idenity best model using 
     for epoch in range(N_EPOCHS):
         train_loss, train_acc = train(model, train_iterator, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
@@ -215,7 +216,7 @@ for i in range(0,100):
 
     N_EPOCHS = 35
     bestmodelvalue=0
-
+#yelp +imdb
     for epoch in range(N_EPOCHS):
         train_loss, train_acc = train(model, train_iterator, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
@@ -265,7 +266,7 @@ for i in range(0,100):
 
     N_EPOCHS = 35
     bestmodelvalue=0
-
+#amazon + imdb
     for epoch in range(N_EPOCHS):
         train_loss1, train_acc1 = train(model, train_iterator1, optimizer, criterion)
         valid_loss1, valid_acc1 = evaluate(model, valid_iterator1, criterion)
@@ -317,7 +318,7 @@ for i in range(0,100):
     N_EPOCHS = 35
     bestmodelvalue=0
 
-
+#Next 3 are yelp only, amazon only, imdb only
     for epoch in range(N_EPOCHS):
         train_loss, train_acc = train(model, train_iterator, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
@@ -416,7 +417,7 @@ for i in range(0,100):
 
     N_EPOCHS = 25
     bestmodelvalue=0
-
+#This is the combination of all 3 data sets. Still iteratively training through each, then evaluating error using the average. 
     for epoch in range(N_EPOCHS):
         train_loss, train_acc = train(model, train_iterator, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
