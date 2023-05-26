@@ -172,8 +172,7 @@ for i in range(0,100):
 	    #train_loss2, train_acc2 = train(model, train_iterator2, optimizer, criterion)
         if (valid_acc+valid_acc1)/2 >= bestmodelvalue:
             bestmodelvalue=(valid_acc+valid_acc1)/2
-            torch.save(model.state_dict(), "sent_model_amazon_yelp.pt")   
-	print("great")
+            torch.save(model.state_dict(), "sent_model_amazon_yelp.pt")
     model.load_state_dict(torch.load("sent_model_amazon_yelp.pt"))
     model.eval()
     test_loss, test_acc = evaluate(model, test_iterator, criterion)
