@@ -168,8 +168,6 @@ for i in range(0,100):
         train_loss1, train_acc1 = train(model, train_iterator1, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
         valid_loss1, valid_acc1 = evaluate(model, valid_iterator1, criterion)
-	    #valid_loss2, valid_acc2 = evaluate(model, valid_iterator2, criterion)
-	    #train_loss2, train_acc2 = train(model, train_iterator2, optimizer, criterion)
         if (valid_acc+valid_acc1)/2 >= bestmodelvalue:
             bestmodelvalue=(valid_acc+valid_acc1)/2
             torch.save(model.state_dict(), "sent_model_amazon_yelp.pt")
@@ -315,10 +313,6 @@ for i in range(0,100):
     for epoch in range(N_EPOCHS):
         train_loss, train_acc = train(model, train_iterator, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
-	   # valid_loss2, valid_acc2 = evaluate(model, valid_iterator2, criterion)
-	   # train_loss2, train_acc2 = train(model, train_iterator2, optimizer, criterion)
-	   # valid_loss1, valid_acc1 = evaluate(model, valid_iterator1, criterion)
-	   # valid_loss2, valid_acc2 = evaluate(model, valid_iterator2, criterion)
         if (valid_acc+valid_acc)/2 >= bestmodelvalue:
             bestmodelvalue=(valid_acc+valid_acc)/2
             torch.save(model.state_dict(), "sent_model_yelp.pt")
@@ -345,10 +339,6 @@ for i in range(0,100):
     for epoch in range(N_EPOCHS):
         train_loss, train_acc = train(model, train_iterator1, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator1, criterion)
-	   # valid_loss2, valid_acc2 = evaluate(model, valid_iterator2, criterion)
-	   # train_loss2, train_acc2 = train(model, train_iterator2, optimizer, criterion)
-	   # valid_loss1, valid_acc1 = evaluate(model, valid_iterator1, criterion)
-	   # valid_loss2, valid_acc2 = evaluate(model, valid_iterator2, criterion)
         if (valid_acc+valid_acc)/2 >= bestmodelvalue:
             bestmodelvalue=(valid_acc+valid_acc)/2
             torch.save(model.state_dict(), "sent_model_amazon.pt")
@@ -370,7 +360,6 @@ for i in range(0,100):
     model = model.to(device)
     criterion = criterion.to(device)
 
-    print('first 25 epochs for demonstration...')
     N_EPOCHS = 35
     bestmodelvalue=0
 
