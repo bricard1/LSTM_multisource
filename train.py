@@ -18,9 +18,6 @@ import torch.nn as nn
 #import warnings
 #warnings.filterwarnings("ignore")
 
-
-# In[2]:
-
 yelp_amazon=[]
 yelp_imdb=[]
 amazon_imdb=[]
@@ -57,19 +54,15 @@ class RNN(nn.Module):
         return self.fc(hidden.squeeze(0))
     
 
-
-# In[3]:
 #Everything below is repeated 100 times using different train/test splits.  
 for i in range(0,100):
 	
 	#YelpData = 0
     pos = data.TabularDataset(path='yelp_labelled.txt', format='csv',csv_reader_params={'delimiter':"\t"},fields=[('text', TEXT),('label', LABEL)])
-
 	#Of 1000 posts, 90/10 training/test
     trainandval, test_data=pos.split(split_ratio=0.90)
 	#Of the remaining training data, 80/20 train/validation
     train_data, valid_data = trainandval.split(split_ratio=0.80)
-
     train_iterator, valid_iterator, test_iterator = data.BucketIterator.splits((train_data, valid_data, test_data), batch_size=BATCH_SIZE,sort_key=lambda x: len(x.text),device=device)
 
 
@@ -171,7 +164,9 @@ for i in range(0,100):
         train_loss, train_acc = train(model, train_iterator, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
         valid_loss1, valid_acc1 = evaluate(model, valid_iterator1, criterion)
-    #    valid_loss2, valid_acc2 = evaluate(model, valid_iterator2, criterion)
+       if (valid_acc+valid_acc1)/2 >= bestmodelvalue:
+            bestmodelvalue=(valid_acc+valid_acc1)/2
+            torch.save(model.state_dict(), "sent_model_amazon_yelp.pt")   
         train_loss1, train_acc1 = train(model, train_iterator1, optimizer, criterion)
         valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
         valid_loss1, valid_acc1 = evaluate(model, valid_iterator1, criterion)
@@ -180,6 +175,7 @@ for i in range(0,100):
         if (valid_acc+valid_acc1)/2 >= bestmodelvalue:
             bestmodelvalue=(valid_acc+valid_acc1)/2
             torch.save(model.state_dict(), "sent_model_amazon_yelp.pt")   
+	print("great")
     model.load_state_dict(torch.load("sent_model_amazon_yelp.pt"))
     model.eval()
     test_loss, test_acc = evaluate(model, test_iterator, criterion)
